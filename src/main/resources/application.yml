@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: weather-sales-predictor
+
+  # Carga .env (si existe) como fuente de configuracion. Las variables de entorno
+  # reales del sistema siempre tienen prioridad sobre este archivo.
+  config:
+    import: "optional:file:.env[.properties]"
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:7001}/${DB_NAME:weathersales}?sslmode=disable
+    username: ${DB_USER:ws_admin}
+    password: ${DB_PASSWORD}          # sin valor por defecto: si falta, falla con un error claro
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+      connection-timeout: 10000
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update                # basico para el curso; en produccion usar Flyway/Liquibase
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

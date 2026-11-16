@@ -1,0 +1,16 @@
+# Maven
+target/
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+# Secretos / config local (NUNCA subir)
+.env
+# Estado local de Floci
+data/
+# SO
+.DS_Store
+Thumbs.db

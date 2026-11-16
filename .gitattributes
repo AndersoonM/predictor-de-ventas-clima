@@ -1,0 +1,14 @@
+# Normaliza los finales de linea para que los scripts .sh funcionen en Linux/macOS.
+# En Windows se conserva CRLF solo donde PowerShell lo espera.
+* text=auto eol=lf
+
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binarios que nunca deben normalizarse
+*.png binary
+*.jpg binary
+*.jar binary
+*.zip binary

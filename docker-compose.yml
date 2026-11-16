@@ -1,0 +1,26 @@
+# Floci: emulador local de AWS (https://floci.io). Sin cuenta, sin credenciales reales.
+# RDS necesita el socket de Docker (levanta contenedores reales de PostgreSQL)
+# y el rango de puertos 7001-7069 (puertos de conexion de las bases de datos).
+#
+# El rango termina en 7069 y no en 7099 porque en este equipo el puerto 7070
+# ya lo ocupa AnyDesk; Docker no puede hacer bind de un puerto ocupado y el
+# contenedor no arrancaria. Si liberas el 7070, puedes devolver el rango a
+# 7001-7099 (aqui y en FLOCI_SERVICES_RDS_PROXY_MAX_PORT).
+name: weather-sales
+
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: floci
+    ports:
+      - "4566:4566"          # API de todos los servicios AWS
+      - "7001-7069:7001-7069" # proxies de RDS (conexion JDBC)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+    environment:
+      FLOCI_STORAGE_MODE: hybrid                 # el estado sobrevive a reinicios
+      FLOCI_STORAGE_PERSISTENT_PATH: /app/data   # el estado se guarda en ./data del host
+      FLOCI_SERVICES_DOCKER_NETWORK: weather-sales_default
+      FLOCI_SERVICES_RDS_PROXY_BASE_PORT: "7001"
+      FLOCI_SERVICES_RDS_PROXY_MAX_PORT: "7069"
