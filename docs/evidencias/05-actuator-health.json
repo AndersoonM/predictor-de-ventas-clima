@@ -1,0 +1,36 @@
+﻿{
+    "status":  "UP",
+    "components":  {
+                       "db":  {
+                                  "status":  "UP",
+                                  "details":  {
+                                                  "database":  "PostgreSQL",
+                                                  "validationQuery":  "isValid()"
+                                              }
+                              },
+                       "diskSpace":  {
+                                         "status":  "UP",
+                                         "details":  {
+                                                         "total":  510481395712,
+                                                         "free":  273366966272,
+                                                         "threshold":  10485760,
+                                                         "path":  "C:\\Users\\ander\\Downloads\\Proyecto con Floci\\Proyecto en repo - Anderson Montes\\.",
+                                                         "exists":  true
+                                                     }
+                                     },
+                       "ping":  {
+                                    "status":  "UP"
+                                },
+                       "ssl":  {
+                                   "status":  "UP",
+                                   "details":  {
+                                                   "validChains":  [
+
+                                                                   ],
+                                                   "invalidChains":  [
+
+                                                                     ]
+                                               }
+                               }
+                   }
+}

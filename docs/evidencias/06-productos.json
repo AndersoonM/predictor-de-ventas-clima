@@ -1,0 +1,38 @@
+﻿[
+    {
+        "id":  1,
+        "name":  "Helado de vainilla 1L",
+        "category":  "Helados",
+        "unitPrice":  14900.00
+    },
+    {
+        "id":  2,
+        "name":  "Gaseosa 1.5L",
+        "category":  "Bebidas frias",
+        "unitPrice":  5200.00
+    },
+    {
+        "id":  3,
+        "name":  "Chocolate caliente 250g",
+        "category":  "Bebidas calientes",
+        "unitPrice":  9800.00
+    },
+    {
+        "id":  4,
+        "name":  "Sopa instantanea",
+        "category":  "Sopas",
+        "unitPrice":  3400.00
+    },
+    {
+        "id":  5,
+        "name":  "Paraguas plegable",
+        "category":  "Hogar",
+        "unitPrice":  27000.00
+    },
+    {
+        "id":  6,
+        "name":  "Bloqueador solar 120ml",
+        "category":  "Cuidado personal",
+        "unitPrice":  38500.00
+    }
+]

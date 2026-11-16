@@ -1,0 +1,11 @@
+﻿# Evidencia 1 - Inicializacion de Floci (emulador de AWS local)
+# Generado: 2026-11-16 15:22:40
+
+$ docker ps
+NAMES                                              IMAGE                STATUS                   PORTS
+floci-aws-rds-db-BBC9159761764653AADCDE81-855d22   36ed71227ae3         Up 6 minutes             5432/tcp
+floci                                              floci/floci:latest   Up 6 minutes (healthy)   0.0.0.0:4566->4566/tcp, [::]:4566->4566/tcp, 0.0.0.0:7001-7069->7001-7069/tcp, [::]:7001-7069->7001-7069/tcp
+
+$ docker compose ps
+NAME      IMAGE                COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+floci     floci/floci:latest   "/usr/local/bin/dockÔÇª"   floci     6 minutes ago   Up 6 minutes (healthy)   0.0.0.0:4566->4566/tcp, [::]:4566->4566/tcp, 0.0.0.0:7001-7069->7001-7069/tcp, [::]:7001-7069->7001-7069/tcp

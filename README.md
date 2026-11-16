@@ -182,8 +182,24 @@ de la API, tablas de la base de datos y configuración con la contraseña enmasc
 Si el backend no está corriendo, el script lo levanta, espera a que responda y lo detiene al
 terminar (usa `-KeepBackendRunning` para dejarlo arriba).
 
-Los archivos generados y qué demuestra cada uno están en
-[`docs/evidencias/README.md`](docs/evidencias/README.md).
+### Evidencia del entregable (comprobada)
+
+La evidencia real de esta fase está versionada en [`docs/evidencias/`](docs/evidencias/) y se
+regenera con un solo comando:
+
+```powershell
+.\scripts\collect-evidence.ps1
+```
+
+| Evidencia | Resultado comprobado |
+|---|---|
+| Floci inicializado | Contenedor `floci` **healthy** + contenedor PostgreSQL real levantado por Floci |
+| Instancia RDS | `weather-sales-db` · `available` · motor `postgres` · base `weathersales` · puerto `7001` |
+| Arranque del backend | `=== CONEXION EXITOSA A LA BASE DE DATOS ===` · PostgreSQL 16.3 · `jdbc:postgresql://localhost:7001/weathersales` · usuario `ws_admin` |
+| Estado de la BD | `GET /api/db/status` → `{"status":"UP","database":"weathersales",...}` |
+| Health check | `GET /actuator/health` → `"status":"UP"` con `"db":{"status":"UP"}` |
+| Datos | `GET /api/products` → los **6 productos** leídos de PostgreSQL |
+| Esquema | Tablas `products`, `weather_observations`, `sales_records` creadas en la BD real |
 
 Comandos útiles para las capturas:
 

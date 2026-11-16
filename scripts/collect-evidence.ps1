@@ -70,6 +70,16 @@ if ($health) {
     if (-not (Test-Path $logCompleto)) {
         Set-Content -Path $logCompleto -Value "(El backend ya estaba corriendo antes de generar la evidencia; este log no se capturo.)" -Encoding utf8
     }
+    # Misma espera que en el arranque: el DataSeeder pudo seguir en curso.
+    $sembrado = $false
+    for ($i = 0; $i -lt 30; $i++) {
+        $p = $null
+        try { $p = Invoke-RestMethod "$Base/api/products" -Method Get -TimeoutSec 5 } catch { }
+        if ($p -and @($p).Count -gt 0) { $sembrado = $true; break }
+        Start-Sleep -Seconds 2
+    }
+    if ($sembrado) { Write-Host "    datos sembrados en la base de datos" }
+    else { Write-Host "    AVISO: /api/products sigue vacio" -ForegroundColor Yellow }
 } else {
     Write-Host "    levantando: mvn spring-boot:run"
     $logCompleto = Join-Path $logs "springboot-arranque-completo.log"
@@ -93,6 +103,21 @@ if ($health) {
         exit 1
     }
     Write-Host "    backend arriba"
+
+    # Los ApplicationRunner (DatabaseConnectionReporter, DataSeeder) se ejecutan
+    # DESPUES de que Tomcat acepta peticiones. Por eso /actuator/health puede
+    # responder "UP" mientras la base de datos aun no tiene datos sembrados.
+    # Esperamos a que el DataSeeder termine antes de capturar los endpoints.
+    $sembrado = $false
+    for ($i = 0; $i -lt 30; $i++) {
+        Start-Sleep -Seconds 2
+        try {
+            $p = Invoke-RestMethod "$Base/api/products" -Method Get -TimeoutSec 5
+            if ($p -and @($p).Count -gt 0) { $sembrado = $true; break }
+        } catch { }
+    }
+    if ($sembrado) { Write-Host "    datos sembrados en la base de datos" }
+    else { Write-Host "    AVISO: /api/products sigue vacio (el DataSeeder pudo fallar)" -ForegroundColor Yellow }
 }
 
 Step "4/8 Extrayendo el bloque de conexion exitosa del log de arranque"
@@ -100,7 +125,7 @@ $logLines = @()
 if (Test-Path (Join-Path $logs "springboot-arranque-completo.log")) {
     $logLines = Get-Content (Join-Path $logs "springboot-arranque-completo.log")
 }
-$clave = $logLines | Select-String -Pattern "CONEXION EXITOSA|Motor\s+:|URL\s+:|Usuario\s+:|Se cargaron|Tomcat started|Started WeatherSalesApplication|products of example|productos de ejemplo" -Context 0, 0
+$clave = $logLines | Select-String -Pattern "CONEXION EXITOSA|Motor\s+:|URL\s+:|Usuario\s+:|Se cargaron|Productos ya existentes|Tomcat started|Started WeatherSalesApplication|products of example|productos de ejemplo" -Context 0, 0
 $extracto = @(
     "# Evidencia 3 - Arranque de Spring Boot con conexion a la base de datos",
     "# Generado: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",

@@ -1,0 +1,12 @@
+﻿# Evidencia 3 - Arranque de Spring Boot con conexion a la base de datos
+# Generado: 2026-11-16 15:23:05
+
+Extracto del log de arranque (log completo en docs/evidencias/logs/):
+
+2026-11-16T15:23:02.924-05:00  INFO 20684 --- [weather-sales-predictor] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-11-16T15:23:02.956-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.w.WeatherSalesApplication            : Started WeatherSalesApplication in 8.022 seconds (process running for 8.632)
+2026-11-16T15:23:03.081-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.w.config.DatabaseConnectionReporter  : === CONEXION EXITOSA A LA BASE DE DATOS ===
+2026-11-16T15:23:03.090-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.w.config.DatabaseConnectionReporter  : Motor   : PostgreSQL 16.3
+2026-11-16T15:23:03.091-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.w.config.DatabaseConnectionReporter  : URL     : jdbc:postgresql://localhost:7001/weathersales?sslmode=disable
+2026-11-16T15:23:03.092-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.w.config.DatabaseConnectionReporter  : Usuario : ws_admin
+2026-11-16T15:23:03.661-05:00  INFO 20684 --- [weather-sales-predictor] [           main] c.s.weathersales.config.DataSeeder       : Productos ya existentes: 6 (no se cargan datos de ejemplo)

@@ -22,42 +22,53 @@ y lo detiene. Si prefieres que el backend siga corriendo al terminar: `-KeepBack
 
 | Archivo | Qué demuestra | Origen |
 |---|---|---|
-| `01-floci-contenedores.txt` | **Floci inicializado**: el contenedor `floci` corriendo y sus puertos publicados | `docker ps` + `docker compose ps` |
-| `02-rds-instancia.json` | **La instancia RDS existe** con estado `available` y su endpoint/puerto | `aws rds describe-db-instances` |
+| `01-floci-contenedores.txt` | **Floci inicializado**: el contenedor `floci` corriendo y healthy, y el contenedor real de PostgreSQL levantado por Floci | `docker ps` + `docker compose ps` |
+| `02-rds-instancia.json` | **La instancia RDS existe** con estado `available`, motor `postgres` y su endpoint/puerto | `aws rds describe-db-instances` |
 | `03-springboot-arranque.log` | **El backend arrancó y se conectó**: bloque `CONEXION EXITOSA A LA BASE DE DATOS` con motor, URL JDBC y usuario | log de `mvn spring-boot:run` |
 | `04-db-status.json` | **Consulta real a la base de datos** desde el backend (`current_database()`, `current_user`, `version()`) | `GET /api/db/status` |
 | `05-actuator-health.json` | **El health check reporta `UP`** con el detalle del componente `db` | `GET /actuator/health` |
-| `06-productos.json` | **Escritura y lectura funcionan**: los productos sembrados salen de PostgreSQL | `GET /api/products` |
+| `06-productos.json` | **Escritura y lectura funcionan**: los 6 productos sembrados salen de PostgreSQL | `GET /api/products` |
 | `07-tablas-bd.txt` | **El esquema se creó en la BD real** (`products`, `weather_observations`, `sales_records`) | `psql \dt` dentro del contenedor de PostgreSQL |
-| `08-configuracion.md` | Versiones y variables de entorno, **con la contraseña enmascarada** | entorno local |
+| `08-configuracion.md` | Versiones y variables de entorno, **con la contraseña enmascarada** (`ws********`) | entorno local |
 | `logs/springboot-arranque-completo.log` | Log completo de arranque, sin filtrar | `mvn spring-boot:run` |
+| `logs/springboot-arranque.err.log` | Salida de error de Maven (vacía = sin errores) | `mvn spring-boot:run` |
 
-## 2. Resultado esperado
+## 2. Resultado obtenido
 
-En `03-springboot-arranque.log` debe aparecer:
+En `03-springboot-arranque.log`:
 
 ```
 === CONEXION EXITOSA A LA BASE DE DATOS ===
-Motor   : PostgreSQL 16.x
+Motor   : PostgreSQL 16.3
 URL     : jdbc:postgresql://localhost:7001/weathersales?sslmode=disable
 Usuario : ws_admin
-Se cargaron 6 productos de ejemplo
 ```
 
-Y en `04-db-status.json`:
+En `04-db-status.json`:
 
 ```json
-{
-  "status": "UP",
-  "database": "weathersales",
-  "user": "ws_admin",
-  "version": "PostgreSQL 16.x ..."
-}
+{"status":"UP","database":"weathersales","user":"ws_admin",
+ "version":"PostgreSQL 16.3 on x86_64-pc-linux-musl, ...","serverTime":"..."}
 ```
+
+En `05-actuator-health.json`: `"status":"UP"` con `"db":{"status":"UP"}`.
+
+En `07-tablas-bd.txt`:
+
+```
+ Schema |         Name         | Type  |  Owner
+--------+----------------------+-------+----------
+ public | products             | table | ws_admin
+ public | sales_records        | table | ws_admin
+ public | weather_observations | table | ws_admin
+(3 rows)
+```
+
+En `06-productos.json`: los 6 productos de ejemplo leídos desde PostgreSQL.
 
 ## 3. Capturas de pantalla (opcionales)
 
-Los archivos de arriba son la evidencia verificable y automática. Si además quieres_adjuntar
+Los archivos de arriba son la evidencia verificable y automática. Si además quieres adjuntar
 capturas al informe, estas son las que corresponden:
 
 | Archivo | Qué debe mostrar | Dónde obtenerlo |
