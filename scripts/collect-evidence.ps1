@@ -132,18 +132,24 @@ Save "07-tablas-bd.txt" $tablas
 
 Step "7/8 Configuracion del entorno (contrasena enmascarada)"
 $mask = if ($env:DB_PASSWORD) { ($env:DB_PASSWORD -replace '(?<=^.{2}).*$', '********') } else { "(sin definir)" }
+
+$vJava   = ((& java -version 2>&1) | Select-Object -First 1) -join ''
+$vMaven  = ((& mvn -v 2>&1)     | Select-Object -First 1) -join ''
+$vDocker = ((& docker --version 2>&1) | Select-Object -First 1) -join ''
+$vAws    = ((& aws --version 2>&1)    | Select-Object -First 1) -join ''
+
 $cfg = @(
     "# Evidencia 7 - Configuracion del entorno",
     "# Generado: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
     "",
     "## Versiones",
     "",
-    "```",
-    "Java  : $((java -version 2>&1) -join ' ')",
-    "Maven : $((mvn -v 2>&1 | Select-Object -First 1) -join '')",
-    "Docker: $((docker --version) -join '')",
-    "AWS   : $((aws --version) -join '')",
-    "```",
+    '```',
+    ("Java  : " + $vJava),
+    ("Maven : " + $vMaven),
+    ("Docker: " + $vDocker),
+    ("AWS   : " + $vAws),
+    '```',
     "",
     "## Variables de entorno efectivas (contrasena enmascarada)",
     "",
