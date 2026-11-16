@@ -7,6 +7,9 @@ venderán más o menos según el clima. La infraestructura cloud se simula local
 Este repositorio cubre el entregable de la **fase 1**: inicializar Floci, configurar variables de
 entorno, crear un proyecto Spring Boot básico y **conectarlo con la base de datos**.
 
+> 📦 **Repositorio:** https://github.com/AndersoonM/predictor-de-ventas-clima
+> 🔗 **Clonar:** `git clone https://github.com/AndersoonM/predictor-de-ventas-clima.git`
+
 ---
 
 ## 1. Análisis de la herramienta: servicios de Floci que se acoplan al proyecto
@@ -63,7 +66,7 @@ en producción: solo cambiarían las variables de entorno.
 
 ```bash
 # 1. Clonar
-git clone https://github.com/<usuario>/predictor-de-ventas-clima.git
+git clone https://github.com/AndersoonM/predictor-de-ventas-clima.git
 cd predictor-de-ventas-clima
 
 # 2. Levantar Floci + crear la base de datos RDS (PostgreSQL) y generar el .env
@@ -255,7 +258,7 @@ git init
 git add .
 git commit -m "feat: proyecto Spring Boot + Floci (RDS PostgreSQL)"
 git branch -M main
-git remote add origin https://github.com/<usuario>/predictor-de-ventas-clima.git
+git remote add origin https://github.com/AndersoonM/predictor-de-ventas-clima.git
 git push -u origin main
 ```
 
